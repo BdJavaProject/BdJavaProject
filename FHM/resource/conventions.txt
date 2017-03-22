@@ -1,0 +1,54 @@
+1、命名约定
+	查询方法用select**前缀开头
+	通过id寻找用selectById方法
+	
+	biz
+	  保存实体命名为save
+	  查询方法用select**前缀开头
+	  通过调用接口获取数据的方法命名为get**
+	 biz的save和update方法除了需要返回主键外，统统返回void，受影响行数为0或者失败直接抛出异常
+	  
+	dao
+	  插入命名为insert  可以利用navicat导出insert语句
+	  查询方法用select**前缀开头
+	  通过id寻找用selectById方法
+	
+	没有带Ecs前缀的实体类通常是romeo或者其他数据库实例的实体
+	
+	异常和日志中，打印的字段值通通用key=value的形式，字段之间用","分隔
+    
+    
+    实体参数名称，去除leqee wms前缀
+  biz和dao要加上leqeewms前缀
+
+2、创建实体类技巧
+    将创建sql拷贝过来，按类型进行replace操作
+
+    
+3、书写set方法的技巧
+  对bean进行sort by all member，拷贝所有的set方法，然后用replace处理
+  notepad处理
+  { ->;
+ 正则 \(.*\)-> \( \) 或者需要转化的实体类\( indicate\)
+ 正则 this.* -> ''
+ } -> ''
+ 去除空行（含空白字符）(编辑)
+  
+4、检验参数约定
+
+  建议在最外层（如控制层）的方法进行异常捕获和处理，
+ 在内层（biz和dao层）校验参数时采用Spring 的Assert进行校验，不存在太多耦合代码
+
+不要所有的都进行验证，如果应该抛出异常的就让他抛出去 
+ 
+5、StringUtils对字符串进行处理
+
+
+
+6、spring mvc的访问后缀都以htm作为后缀
+
+
+7、日志类的创建只能使用类名+.class的方式，不能用this.getClass()方式
+  like this:	Logger logger=Logger.getLogger(CommonCainiaoSchedule.class);
+
+
