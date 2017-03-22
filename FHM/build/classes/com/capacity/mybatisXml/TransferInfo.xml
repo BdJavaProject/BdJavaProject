@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.capacity.dao.TransferInfoDao">
+
+	<sql id="sql">id,  transformerId, capacityTestId, loadTestId, noloadTestId, userName, transformerCode, userAddress, testUser, capacityTransformerType, transformerType, currentTemperature, ratedCapacity, connectionGroup, tapGear, firstVoltage, secondVoltage, impedanceVoltage, correctionCoefficient, ratedLowVoltage, ratedHighVoltage, noloadTransformerType, testMethod, createTime, relationId</sql>
+
+	<select id="findAll" resultType="com.capacity.entity.TransferInfo">
+		select <include refid="sql"></include> from transformer_info order by createTime desc
+	</select>
+	
+	<select id="findByCondition" parameterType="map" resultType="com.capacity.entity.TransferInfo">
+		select 
+			<include refid="sql"></include> from transformer_info 
+		where
+			1=1
+			<if test="startTime != null">
+				and createTime <![CDATA[ > ]]> #{startTime}
+			</if>
+			<if test="endTime != null">
+				and createTime <![CDATA[ <= ]]> #{endTime}
+			</if>
+			<if test="transformerId != null and transformerId != ''">
+				and transformerId = #{transformerId}
+			</if>
+			<if test="username != null and username != ''">
+				and userName = #{username}
+			</if>
+			order by createTime desc
+	</select>
+	
+	<select id="findByTransformerId" parameterType="string" resultType="com.capacity.entity.TransferInfo">
+		select <include refid="sql"></include> from transformer_info where transformerId = #{transformerId}
+	</select>
+	
+	<delete id="deleteById" parameterType="Integer">
+		delete from transformer_info where id = #{id}
+	</delete>
+	
+	<delete id="deleteByIds" parameterType="list">
+		delete from transformer_info  where id in
+		<foreach collection="list" item="item" open="(" separator=","
+			close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+</mapper>

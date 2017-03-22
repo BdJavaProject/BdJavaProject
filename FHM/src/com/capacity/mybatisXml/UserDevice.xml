@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.capacity.dao.UserDeviceDao">
+
+	<sql id="sql">
+		id,user_id,device_id,device_type
+	</sql>
+
+	<select id="findByUserId" parameterType="Integer" resultType="com.capacity.entity.UserDevice">
+		select <include refid="sql"></include> from user_device where user_id = #{user_id}
+	</select>
+	
+	<insert id="insert" parameterType="com.capacity.entity.UserDevice">
+		insert into sys_app_user(
+			user_id,
+			device_id,
+			device_type
+		)values(
+			#{user_id}, 
+			#{device_id},
+			#{device_type}
+		)
+	</insert>
+	
+	
+</mapper>
